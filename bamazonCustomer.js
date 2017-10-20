@@ -60,12 +60,20 @@ function whatDoYouWant(){
 		},
 		])
 	.then(function(inquirerResponse){
-		quantityCheck(inquirerResponse.productID, function(quantity){
+		quantityCheck(inquirerResponse.productID, function(quantity, price){
 			if (inquirerResponse.quantity > quantity){
-				console.log("Insufficient quantity!")
+				console.log("Insufficient quantity!\n\n")
+			  	customerInfo(function() {
+					whatDoYouWant();
+				});
+
 			} else {
 				quantity -= inquirerResponse.quantity;
 				updateProduct(inquirerResponse.productID, quantity)
+				console.log("That'll be " + (inquirerResponse.quantity * price) + " monopoly monies, please.\n\n")
+				customerInfo(function() {
+					whatDoYouWant();
+				});
 			}
 		});
 	});
@@ -84,16 +92,15 @@ function updateProduct(item_id, quantity) {
       
     ],
     function(err, res) {
-      console.log(res.affectedRows + " products updated!\n");
+      // console.log(res.affectedRows + " products updated!\n");
     }
   );
 
   // logs the actual query being run
-  console.log(query.sql);
-  allInfo();
-  customerInfo(function() {
-		whatDoYouWant();
-	});
+  // console.log(query.sql);
+ //  customerInfo(function() {
+	// 	whatDoYouWant();
+	// });
 
 }
 
@@ -104,7 +111,6 @@ function quantityCheck(item_id, callback) {
 		if(error){
 			throw error;
 		}
-		// console.log(results[0].stock_quantity)
-		callback(results[0].stock_quantity)
+		callback(results[0].stock_quantity, results[0].price)
 	});
 }
