@@ -74,7 +74,9 @@ function whatDoYouWant(){
 			} else {
 				quantity -= inquirerResponse.quantity;
 				updateProduct(inquirerResponse.productID, quantity)
-				console.log("That'll be " + (inquirerResponse.quantity * price) + " monopoly monies, please.\n\n")
+				var cost = inquirerResponse.quantity * price;
+				productSales(inquirerResponse.productID, cost);
+				console.log("That'll be " + cost + " monopoly monies, please.\n\n")
 				customerInfo(function() {
 					whatDoYouWant();
 				});
@@ -95,6 +97,17 @@ function updateProduct(item_id, quantity) {
       }
       
     ],
+    function(err, res) {
+      // console.log(res.affectedRows + " products updated!\n");
+    }
+  );
+}
+
+function productSales(item_id, cost) {
+  var query = connection.query(
+    "UPDATE products SET product_sales = product_sales + ? WHERE item_id = ?",
+    [cost, item_id],
+
     function(err, res) {
       // console.log(res.affectedRows + " products updated!\n");
     }
