@@ -28,7 +28,11 @@ function customerInfo(callback) {
 		}
 		var inventory = [];
 		for (var i = 0; i < results.length; i++) {
-			inventory.push({item: results[i].item_id,product: results[i].product_name,price: results[i].price})
+			inventory.push({
+				item: results[i].item_id,
+				product: results[i].product_name,
+				price: results[i].price
+			})
 		}
 		console.table(inventory)
 		callback(inventory)
@@ -95,13 +99,6 @@ function updateProduct(item_id, quantity) {
       // console.log(res.affectedRows + " products updated!\n");
     }
   );
-
-  // logs the actual query being run
-  // console.log(query.sql);
- //  customerInfo(function() {
-	// 	whatDoYouWant();
-	// });
-
 }
 
 function quantityCheck(item_id, callback) {
