@@ -76,7 +76,7 @@ function stockAdd(callback) {
 
 function updateProduct(item_id, quantity) {
   var query = connection.query(
-    "UPDATE products SET stock_quantity = stock_quantity + ? WHERE ?",
+    "UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ?",
     [quantity, item_id],
 
     function(err, res) {
